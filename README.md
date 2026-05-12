@@ -1,8 +1,8 @@
-# DeepSeekCode
+# DeepSeekLegalCode
 
 [简体中文](README.md) | [English](README_EN.md)
 
-DeepSeekCode 是一个面向专业工作的本地 CLI Agent。它基于 Claude Code 代码库改造，将模型请求路由到 DeepSeek 的 Anthropic 兼容 API，并在本仓库中预装 Anthropic 发布的 `claude-for-legal` 法律插件集。
+DeepSeekLegalCode 是一个面向法律专业工作的本地 CLI Agent。它基于 DeepSeekCode / Claude Code 代码库改造，将模型请求路由到 DeepSeek 的 Anthropic 兼容 API，并在本仓库中预装 Anthropic 发布的 `claude-for-legal` 法律插件集。
 
 > 社区独立项目，非 DeepSeek 或 Anthropic 官方产品。法律插件输出是供律师复核的工作草稿，不构成法律意见。
 
@@ -132,7 +132,7 @@ src/utils/plugins/legalMarketplace.ts # legal marketplace 常量
 ## 从源码开发
 
 ```bash
-git clone https://github.com/QingJ01/DeepSeekCode.git
+git clone https://github.com/TracyWang95/DeepSeekLegalCode.git
 cd DeepSeekCode
 npm ci --ignore-scripts
 npm run check

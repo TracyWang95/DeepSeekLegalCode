@@ -184,7 +184,7 @@ getAPIProvider() → 'deepseek'
 ### 本地开发
 
 ```bash
-git clone https://github.com/QingJ01/DeepSeekCode.git
+git clone https://github.com/TracyWang95/DeepSeekLegalCode.git
 cd DeepSeekCode
 npm ci --ignore-scripts
 npm run build

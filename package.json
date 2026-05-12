@@ -18,11 +18,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/QingJ01/DeepSeekCode.git"
+    "url": "git+https://github.com/TracyWang95/DeepSeekLegalCode.git"
   },
-  "homepage": "https://github.com/QingJ01/DeepSeekCode#readme",
+  "homepage": "https://github.com/TracyWang95/DeepSeekLegalCode#readme",
   "bugs": {
-    "url": "https://github.com/QingJ01/DeepSeekCode/issues"
+    "url": "https://github.com/TracyWang95/DeepSeekLegalCode/issues"
   },
   "bin": {
     "deepseekcode": "scripts/run-deepseek.mjs",

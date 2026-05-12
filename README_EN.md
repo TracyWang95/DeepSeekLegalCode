@@ -1,8 +1,8 @@
-# DeepSeekCode
+# DeepSeekLegalCode
 
 [简体中文](README.md) | [English](README_EN.md)
 
-DeepSeekCode is a local CLI agent for professional knowledge work. It is adapted from the Claude Code codebase, routes model calls to DeepSeek's Anthropic-compatible API, and this repository ships with Anthropic's `claude-for-legal` plugin marketplace preconfigured.
+DeepSeekLegalCode is a local CLI agent for legal professional work. It is adapted from the DeepSeekCode / Claude Code codebase, routes model calls to DeepSeek's Anthropic-compatible API, and this repository ships with Anthropic's `claude-for-legal` plugin marketplace preconfigured.
 
 > Community project. Not an official DeepSeek or Anthropic product. Legal workflow outputs are attorney-review drafts, not legal advice.
 
@@ -134,7 +134,7 @@ src/utils/plugins/legalMarketplace.ts # legal marketplace constants
 ## Development
 
 ```bash
-git clone https://github.com/QingJ01/DeepSeekCode.git
+git clone https://github.com/TracyWang95/DeepSeekLegalCode.git
 cd DeepSeekCode
 npm ci --ignore-scripts
 npm run check

@@ -83,7 +83,7 @@ deepseek-code -p "总结这个仓库的架构"
 如果你要开发或调试本项目，可以从源码构建：
 
 ```bash
-git clone https://github.com/QingJ01/DeepSeekCode.git
+git clone https://github.com/TracyWang95/DeepSeekLegalCode.git
 cd DeepSeekCode
 npm ci --ignore-scripts
 npm run check
