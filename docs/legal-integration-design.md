@@ -9,7 +9,7 @@ thin DeepSeekCode-native onboarding layer around it.
   content.
 - Route all model traffic through DeepSeekCode's existing DeepSeek adapter.
 - Make installation discoverable through a first-class `legal` command group.
-- Keep legal workflows auditable: explicit marketplace source, visible install
+- Keep legal plugin bundles auditable: explicit marketplace source, visible install
   scope, and a diagnostic command for local state.
 
 ## Architecture

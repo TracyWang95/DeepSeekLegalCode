@@ -31,7 +31,7 @@ assert.match(
 assert.match(
   constants,
   /LEGAL_DEFAULT_PLUGIN\s*=\s*['"]commercial-legal['"]/,
-  'legal setup should have a practical default workflow',
+  'legal setup should have a practical default plugin bundle',
 )
 assert.match(
   constants,
@@ -153,7 +153,7 @@ assert.match(
 assert.match(
   readmeEn,
   /12 `claude-for-legal` plugin bundles/,
-  'English README should describe the preinstalled legal workflows',
+  'English README should describe the preconfigured legal plugin bundles',
 )
 assert.match(
   docs,

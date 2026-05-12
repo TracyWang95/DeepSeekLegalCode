@@ -107,7 +107,7 @@ Add a local filesystem MCP server:
 node scripts/run-deepseek.mjs mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem D:\Contracts
 ```
 
-Then ask a legal workflow to use that source:
+Then ask a legal plugin command to use that source:
 
 ```text
 /commercial-legal:review Use the filesystem MCP to read D:\Contracts, review the agreement, and output a risk table.

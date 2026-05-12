@@ -84,7 +84,7 @@ deepseek-code -p "总结这个仓库的架构"
 
 ```bash
 git clone https://github.com/TracyWang95/DeepSeekLegalCode.git
-cd DeepSeekCode
+cd DeepSeekLegalCode
 npm ci --ignore-scripts
 npm run check
 ```

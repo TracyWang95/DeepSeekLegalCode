@@ -4216,7 +4216,7 @@ async function run(): Promise<CommanderCommand> {
     await pluginInstallHandler(plugin, options);
   });
 
-  const legalCmd = program.command('legal').description('Install and inspect DeepSeek-powered legal workflow plugins').configureHelp(createSortedHelpConfig());
+  const legalCmd = program.command('legal').description('Install and inspect DeepSeek-powered legal plugin bundles').configureHelp(createSortedHelpConfig());
   legalCmd.command('list').description('List curated Claude for Legal plugins supported by DeepSeekCode').action(async () => {
     const {
       legalListHandler
