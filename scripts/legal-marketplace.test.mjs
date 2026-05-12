@@ -147,12 +147,12 @@ assert.match(
 )
 assert.match(
   readmeEn,
-  /Quick Start For Lawyers/,
+  /## Quick Start/,
   'English README should include the lawyer quick-start section',
 )
 assert.match(
   readmeEn,
-  /12 core legal workflows/,
+  /12 `claude-for-legal` plugin bundles/,
   'English README should describe the preinstalled legal workflows',
 )
 assert.match(

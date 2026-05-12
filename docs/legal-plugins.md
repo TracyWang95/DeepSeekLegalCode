@@ -1,116 +1,92 @@
 # DeepSeek Legal Plugins
 
-DeepSeekCode can run Anthropic's `claude-for-legal` plugin marketplace through the
-existing plugin system while routing model calls to DeepSeek.
+DeepSeekLegalCode runs the upstream `claude-for-legal` marketplace through the existing plugin system while routing model calls to DeepSeek.
 
 This repository ships with project-level defaults in `.deepseek/settings.json`:
 
-- `claude-for-legal` is pre-registered as a marketplace.
-- The 12 core legal workflows are enabled by default.
+- `claude-for-legal` is pre-registered from `anthropics/claude-for-legal`.
+- 12 legal plugin bundles are enabled by default.
+- Startup and `legal doctor` can synchronize the project-declared marketplace and plugins into the local plugin cache.
 
-On first startup, DeepSeekCode can materialize the configured marketplace and
-plugin into the user's local plugin cache. The helper commands below remain
-available for installing additional legal workflows.
+## Lawyer Quick Start
 
-## Lawyer quick start
+Lawyer users only need a DeepSeek API key:
 
-For this repository, lawyers only need a DeepSeek API key:
-
-```bash
+```cmd
 setx DEEPSEEK_API_KEY "sk-..."
 deepseek-code
 ```
 
-or from a source checkout:
+From a source checkout:
 
-```bash
+```powershell
 node scripts/run-deepseek.mjs
 ```
 
-DeepSeekCode detects `.deepseek/settings.json` and synchronizes the preinstalled
-legal plugin before the first headless prompt. In interactive mode, accept the
-workspace trust prompt and the legal plugin will be prepared from the repository
-defaults.
+Type `/` in the interactive UI to browse commands. Legal skills are shown as `/plugin:skill`, for example `/law-student:case-brief`, so duplicate skill names such as `customize` remain unambiguous.
 
-## Install another workflow
+## Plugin vs. Skill
 
-Install the commercial legal workflow:
+In this repository, a plugin is a practice bundle. It defines a work surface, profile, and a group of second-level skills. The concrete action you run is the skill.
 
-```bash
-deepseek-code legal setup commercial-legal
+Examples:
+
+```text
+/commercial-legal:review
+/privacy-legal:use-case-triage
+/law-student:case-brief
 ```
 
-Install a different workflow:
+The left side of the colon is the plugin bundle. The right side is the concrete skill.
 
-```bash
+## Common Commands
+
+List all legal plugins:
+
+```powershell
 deepseek-code legal list
-deepseek-code legal setup privacy-legal
-deepseek-code legal setup ai-governance-legal
 ```
 
-List every slash command under one plugin:
+List every second-level skill under one plugin:
 
-```bash
+```powershell
 deepseek-code legal commands law-student
 ```
 
-Interactive slash commands are intentionally shown as `/plugin:skill`, for
-example `/law-student:case-brief`, so duplicate skill names such as `customize`
-remain easy to tell apart.
+Check local installation state and synchronize project defaults:
 
-The command adds the `anthropics/claude-for-legal` marketplace, installs the
-selected plugin at user scope by default, and prints the first slash command to
-run after restarting DeepSeekCode.
-
-Check the local installation state:
-
-```bash
+```powershell
 deepseek-code legal doctor
 ```
 
-`legal doctor` also synchronizes the project-declared marketplace and enabled
-plugin into the local plugin cache, so it is the fastest way to verify a fresh
-clone.
+Install one plugin manually:
 
-## Manual setup
-
-The helper is equivalent to:
-
-```bash
-deepseek-code plugin marketplace add anthropics/claude-for-legal --scope user
-deepseek-code plugin install commercial-legal@claude-for-legal --scope user
+```powershell
+deepseek-code legal setup commercial-legal
 ```
 
-Use `--scope project` only when the legal workflow must be shared with the
-current repository. User scope is the better default for legal work because the
-plugin can be used from any client matter workspace.
+User scope is the better default for legal work because the same plugin can be used from different client or matter workspaces. Use project scope only when the team intentionally wants the plugin declaration committed to the current repository.
 
-## Available workflows
+## Preconfigured Plugin Bundles
 
-| Plugin | First command |
-| --- | --- |
-| `commercial-legal` | `/commercial-legal:review` |
-| `privacy-legal` | `/privacy-legal:use-case-triage` |
-| `product-legal` | `/product-legal:is-this-a-problem` |
-| `corporate-legal` | `/corporate-legal:diligence-issue-extraction` |
-| `employment-legal` | `/employment-legal:wage-hour-qa` |
-| `regulatory-legal` | `/regulatory-legal:reg-feed-watcher` |
-| `ai-governance-legal` | `/ai-governance-legal:use-case-triage` |
-| `litigation-legal` | `/litigation-legal:matter-intake` |
-| `ip-legal` | `/ip-legal:clearance` |
-| `legal-clinic` | `/legal-clinic:cold-start-interview` |
-| `law-student` | `/law-student:cold-start-interview` |
-| `legal-builder-hub` | `/legal-builder-hub:registry-browser` |
+| Plugin Bundle | Boundary | Good First Command |
+| --- | --- | --- |
+| `commercial-legal` | Commercial contract operations: vendor agreements, NDAs, SaaS subscriptions, renewals, and escalation routing. | `/commercial-legal:review` |
+| `privacy-legal` | Privacy workflows: PIA/DPIA, DPAs, DSARs, and policy/practice drift. | `/privacy-legal:use-case-triage` |
+| `product-legal` | Product legal intake: feature risk, launch review, marketing claims, and fast triage. | `/product-legal:is-this-a-problem` |
+| `corporate-legal` | Corporate transactions and governance: M&A diligence, closings, board materials, and entity compliance. | `/corporate-legal:diligence-issue-extraction` |
+| `employment-legal` | Employment and HR compliance: hiring, termination, classification, leave, investigations, and policies. | `/employment-legal:wage-hour-qa` |
+| `regulatory-legal` | Regulatory monitoring and policy gaps: feeds, policy diffs, gaps, comments, and redrafts. | `/regulatory-legal:reg-feed-watcher` |
+| `ai-governance-legal` | AI governance: use cases, impact assessments, inventories, vendor AI terms, and policies. | `/ai-governance-legal:use-case-triage` |
+| `litigation-legal` | Litigation and disputes: matter intake, legal holds, chronologies, claim charts, and discovery. | `/litigation-legal:matter-intake` |
+| `ip-legal` | IP practice: trademark clearance, FTO triage, open-source compliance, IP clauses, and infringement triage. | `/ip-legal:clearance` |
+| `legal-clinic` | Clinical legal education: intake, research roadmaps, drafting, supervisor review, and semester handoffs. | `/legal-clinic:research-start` |
+| `law-student` | Law-school learning: case briefs, cold-call prep, IRAC, flashcards, and exam prep. | `/law-student:case-brief` |
+| `legal-builder-hub` | Legal plugin ecosystem management: browse, install, update, disable, and QA community skills. | `/legal-builder-hub:registry-browser` |
 
-## Safety model
+## Safety Model
 
-Legal plugin output is draft work product for attorney review. DeepSeekCode
-does not turn these workflows into legal advice, legal conclusions, or a
-substitute for professional responsibility. Verify citations, jurisdictional
-assumptions, deadlines, and anything that will be filed, sent, or relied on.
-
-## Troubleshooting
-
-If a model call fails with `Insufficient Balance`, the DeepSeek account behind
-`DEEPSEEK_API_KEY` needs billing credit before workflows can run. Plugin setup,
-listing, validation, and `legal doctor` do not require a model call.
+- Legal plugin output is draft work product, not legal advice.
+- Verify facts, citations, jurisdictions, deadlines, authority, and anything that will be filed, sent, or relied on.
+- Do not commit `DEEPSEEK_API_KEY` to the repository, issues, screenshots, or logs.
+- If a model call fails with `Insufficient Balance`, the DeepSeek account behind `DEEPSEEK_API_KEY` needs billing credit. Plugin setup, listing, validation, and `legal doctor` do not require a model call.

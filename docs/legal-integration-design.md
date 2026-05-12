@@ -35,7 +35,7 @@ plugin intent:
 }
 ```
 
-The full file enables all 12 core legal workflows. The shortened example above
+The full file enables all 12 legal plugin bundles. The shortened example above
 shows the shape only. The user's machine still owns the downloaded marketplace
 cache and versioned plugin cache.
 

@@ -2,31 +2,30 @@
 
 [简体中文](README.md) | [English](README_EN.md)
 
-DeepSeekLegalCode is a local CLI agent for legal professional work. It is adapted from the DeepSeekCode / Claude Code codebase, routes model calls to DeepSeek's Anthropic-compatible API, and this repository ships with Anthropic's `claude-for-legal` plugin marketplace preconfigured.
+DeepSeekLegalCode is a local CLI agent for legal work. It is adapted from the DeepSeekCode / Claude Code codebase, routes model calls to DeepSeek's Anthropic-compatible API, and ships with the `claude-for-legal` plugin marketplace preconfigured.
 
-> Community project. Not an official DeepSeek or Anthropic product. Legal workflow outputs are attorney-review drafts, not legal advice.
+> Community project. Not an official DeepSeek or Anthropic product. Legal plugin outputs are drafts for attorney, legal-team, instructor, or student review, not legal advice.
 
-![DeepSeekCode](DeepSeekCode.png)
+![Law-student slash command menu](docs/assets/law-student-slash-menu.svg)
 
 ![Node](https://img.shields.io/badge/node-%3E%3D18-339933)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![DeepSeek](https://img.shields.io/badge/model-DeepSeek%20V4-4c8bf5)
-![Legal Workflows](https://img.shields.io/badge/legal%20workflows-12%20preinstalled-6f42c1)
+![Legal Plugins](https://img.shields.io/badge/legal%20plugins-12%20preconfigured-6f42c1)
 
-## Why This Project
+## Project Scope
 
-- **Lawyer-friendly by default**: `.deepseek/settings.json` pre-registers `claude-for-legal` and enables 12 core legal workflows.
-- **Only one required setup step**: users provide `DEEPSEEK_API_KEY`; no marketplace or plugin installation knowledge is required.
-- **DeepSeek-powered agent runtime**: keeps Claude Code-style tool use, slash commands, sub-agents, MCP, and permission prompts while using DeepSeek models.
-- **Auditable integration**: marketplace source, preinstalled settings, diagnostics, tests, and design notes are all committed in the repo.
-- **Open-source ready**: bilingual documentation, verification commands, and a secret-scanning path are included.
+- **Lawyer-friendly by default**: `.deepseek/settings.json` pre-registers `claude-for-legal` and enables 12 legal plugins.
+- **Only one required setup step**: users provide `DEEPSEEK_API_KEY`; they do not need to understand marketplaces, MCP, or plugin installation.
+- **Clear command names**: legal skills are shown as `/plugin:skill`, for example `/law-student:case-brief`, so duplicate names such as `customize` stay unambiguous.
+- **Local-first workflow**: code, settings, plugin cache, and MCP connections run on the user's machine or chosen environment.
+- **Open-source ready**: bilingual documentation, integration notes, tests, and a secret-scanning path are committed in the repo.
 
-## Quick Start For Lawyers
-
-Install dependencies and build:
+## Quick Start
 
 ```powershell
-cd D:\DeepSeekCode
+git clone https://github.com/TracyWang95/DeepSeekLegalCode.git
+cd DeepSeekLegalCode
 npm ci --ignore-scripts
 npm run check
 ```
@@ -37,67 +36,64 @@ Set your DeepSeek API key:
 $env:DEEPSEEK_API_KEY="sk-..."
 ```
 
-Start DeepSeekCode:
+Start the interactive CLI:
 
 ```powershell
 node scripts/run-deepseek.mjs
 ```
 
-Then run a preinstalled legal workflow:
+Type `/` in the interface to browse commands. Legal plugin commands use `/plugin:skill` names, for example:
 
 ```text
-/commercial-legal:review Review the contract in the current folder. List high-risk clauses, proposed edits, and questions for attorney confirmation.
+/commercial-legal:review Review the contracts in the current folder and list high-risk clauses, proposed edits, and attorney-confirmation questions.
+/privacy-legal:use-case-triage Triage the privacy risk of an AI product feature and ask what facts are needed.
+/law-student:case-brief Brief this case and identify the holding and rule.
 ```
 
-One-shot mode:
+## Legal Plugins
 
-```powershell
-node scripts/run-deepseek.mjs -p "/privacy-legal:use-case-triage What information do you need to triage a new AI product feature?"
-```
+In this project, a "plugin" is not a broad legal taxonomy bucket. It is an upstream `claude-for-legal` practice bundle: one work surface, one profile, and a set of concrete second-level skills. The action you run is `/plugin:skill`. Use `node scripts/run-deepseek.mjs legal commands <plugin>` to inspect the full skill list.
 
-## Preinstalled Legal Workflows
+This repository enables 12 `claude-for-legal` plugin bundles by default:
 
-This repository enables 12 legal plugins by default:
+| Plugin Bundle | Boundary / Users | Concrete Skills | Good First Command |
+| --- | --- | --- | --- |
+| `commercial-legal` | Commercial contract operations: vendor agreements, NDAs, SaaS subscriptions, renewals, and escalation routing; not generic business-law advice. | `review`, `nda-review`, `saas-msa-review`, `vendor-agreement-review`, `renewal-tracker`, `stakeholder-summary` | `/commercial-legal:review` |
+| `privacy-legal` | Privacy workflows: PIA/DPIA triage, DPAs, DSARs, and policy/practice drift; not every data-law question. | `use-case-triage`, `pia-generation`, `dpa-review`, `dsar-response`, `policy-monitor`, `reg-gap-analysis` | `/privacy-legal:use-case-triage` |
+| `product-legal` | Product legal intake: feature risk, launch review, marketing claims, and fast triage for product teams. | `is-this-a-problem`, `feature-risk-assessment`, `launch-review`, `marketing-claims-review` | `/product-legal:is-this-a-problem` |
+| `corporate-legal` | Corporate transactions and governance: M&A diligence, closings, board materials, entity compliance, and material contracts. | `diligence-issue-extraction`, `tabular-review`, `closing-checklist`, `board-minutes`, `entity-compliance` | `/corporate-legal:diligence-issue-extraction` |
+| `employment-legal` | Employment and HR compliance: hiring, termination, classification, leave, investigations, and policies; jurisdiction matters. | `hiring-review`, `termination-review`, `worker-classification`, `wage-hour-qa`, `leave-tracker`, `policy-drafting` | `/employment-legal:wage-hour-qa` |
+| `regulatory-legal` | Regulatory monitoring and policy gaps: feeds, policy diffs, gap surfacing, comments, and redrafts. | `reg-feed-watcher`, `policy-diff`, `gap-surfacer`, `gaps`, `comments`, `policy-redraft` | `/regulatory-legal:reg-feed-watcher` |
+| `ai-governance-legal` | AI governance: AI use cases, impact assessments, inventories, vendor AI terms, and internal AI policies. | `use-case-triage`, `aia-generation`, `ai-inventory`, `vendor-ai-review`, `policy-starter`, `reg-gap-analysis` | `/ai-governance-legal:use-case-triage` |
+| `litigation-legal` | Litigation and disputes: matter intake, legal holds, chronologies, claim charts, discovery, and counsel status. | `matter-intake`, `legal-hold`, `chronology`, `claim-chart`, `privilege-log-review`, `subpoena-triage` | `/litigation-legal:matter-intake` |
+| `ip-legal` | IP practice: trademark clearance, FTO triage, open-source compliance, IP clauses, infringement triage, and portfolio tracking. | `clearance`, `fto-triage`, `oss-review`, `ip-clause-review`, `infringement-triage`, `portfolio` | `/ip-legal:clearance` |
+| `legal-clinic` | Clinical legal education: client intake, research roadmaps, drafting, supervisor review, deadlines, and semester handoffs; not a general law-firm CRM. | `client-intake`, `research-start`, `memo`, `client-letter`, `supervisor-review-queue`, `semester-handoff` | `/legal-clinic:research-start` |
+| `law-student` | Law-school learning: Socratic drills, case briefs, cold-call prep, IRAC, flashcards, and exam prep; learning mode, not answer-writing mode. | `session`, `case-brief`, `cold-call-prep`, `irac-practice`, `flashcards`, `study-plan`, `exam-forecast` | `/law-student:case-brief` |
+| `legal-builder-hub` | Legal plugin ecosystem management: browse, install, update, disable, and QA community legal skills; it does not perform legal analysis itself. | `registry-browser`, `skill-installer`, `skill-manager`, `skills-qa`, `auto-updater`, `disable` | `/legal-builder-hub:registry-browser` |
 
-| Use Case | Plugin | First Command |
-| --- | --- | --- |
-| Commercial contracts / SaaS / NDA | `commercial-legal` | `/commercial-legal:review` |
-| Privacy / DPIA / DPA | `privacy-legal` | `/privacy-legal:use-case-triage` |
-| Product counseling / marketing claims / launch review | `product-legal` | `/product-legal:is-this-a-problem` |
-| Corporate / M&A / board materials | `corporate-legal` | `/corporate-legal:diligence-issue-extraction` |
-| Employment / HR compliance | `employment-legal` | `/employment-legal:wage-hour-qa` |
-| Regulatory monitoring / policy gaps / comments | `regulatory-legal` | `/regulatory-legal:reg-feed-watcher` |
-| AI governance / vendor AI terms / impact assessments | `ai-governance-legal` | `/ai-governance-legal:use-case-triage` |
-| Litigation / holds / discovery / outside counsel | `litigation-legal` | `/litigation-legal:matter-intake` |
-| IP / trademark / FTO / open source | `ip-legal` | `/ip-legal:clearance` |
-| Legal clinic supervision | `legal-clinic` | `/legal-clinic:cold-start-interview` |
-| Law school study workflows | `law-student` | `/law-student:cold-start-interview` |
-| Legal plugin discovery and management | `legal-builder-hub` | `/legal-builder-hub:registry-browser` |
-
-Check local installation state:
-
-```powershell
-node scripts/run-deepseek.mjs legal doctor
-```
-
-List all legal workflows:
+List all plugins:
 
 ```powershell
 node scripts/run-deepseek.mjs legal list
 ```
 
-List every second-level command in one workflow:
+List every second-level skill under one plugin:
 
 ```powershell
 node scripts/run-deepseek.mjs legal commands law-student
 ```
 
-In the interactive `/` menu, legal skills are shown as `/plugin:skill`, for
-example `/law-student:case-brief`, with a short practice label beside them.
+Check local plugin installation state:
+
+```powershell
+node scripts/run-deepseek.mjs legal doctor
+```
+
+`legal doctor` synchronizes the project-declared marketplace and enabled plugins into the local plugin cache. It is the quickest first check on a new machine or fresh clone.
 
 ## MCP Usage
 
-Legal plugins can use MCP servers for local files, knowledge bases, Slack, Google Drive, research systems, and other data sources.
+MCP is optional. Legal plugins can use MCP servers to read local folders, knowledge bases, document systems, research systems, or team tools.
 
 List configured MCP servers:
 
@@ -111,89 +107,42 @@ Add a local filesystem MCP server:
 node scripts/run-deepseek.mjs mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem D:\Contracts
 ```
 
-Use it from a legal workflow:
+Then ask a legal workflow to use that source:
 
 ```text
-/commercial-legal:review Use the filesystem MCP to read D:\Contracts and produce a contract risk table.
+/commercial-legal:review Use the filesystem MCP to read D:\Contracts, review the agreement, and output a risk table.
 ```
 
-## Core DeepSeekCode Capabilities
-
-- Project-aware chat with tool execution and permission prompts
-- Thinking mode with `max` effort by default
-- File reading, editing, diffs, sub-agents, and task decomposition
-- MCP, hooks, plugins, and slash commands
-- `-p` non-interactive mode for scripts and CI
-- 1M context window and up to 384K output tokens
-- Isolated config under `~/.deepseek-code` and project `.deepseek/`
-
-## Repository Layout
+## Project Layout
 
 ```text
-.deepseek/settings.json              # Preinstalls claude-for-legal and 12 legal plugins
-docs/legal-plugins.md                # English legal workflow guide
-docs/legal-plugins.zh-CN.md          # Chinese legal workflow guide
-docs/legal-integration-design.md     # Integration design notes
-scripts/run-deepseek.mjs             # DeepSeek launcher
-scripts/legal-marketplace.test.mjs   # Legal marketplace integration test
-src/cli/handlers/legal.ts            # legal subcommands
-src/utils/plugins/legalMarketplace.ts # legal marketplace constants
+.deepseek/settings.json               # Pre-registers claude-for-legal and enables 12 legal plugins
+docs/legal-plugins.md                 # English legal plugin guide
+docs/legal-plugins.zh-CN.md           # Chinese legal plugin guide
+docs/legal-integration-design.md      # Integration design notes
+docs/assets/law-student-slash-menu.svg
+scripts/run-deepseek.mjs              # DeepSeek launcher
+scripts/legal-marketplace.test.mjs    # Legal marketplace integration test
+src/cli/handlers/legal.ts             # legal subcommands
+src/utils/plugins/legalMarketplace.ts # Legal plugin metadata and labels
 ```
 
-## Development
+## Development Commands
 
-```bash
-git clone https://github.com/TracyWang95/DeepSeekLegalCode.git
-cd DeepSeekCode
-npm ci --ignore-scripts
+```powershell
 npm run check
 npm test
-```
-
-Common commands:
-
-```bash
-npm run build          # Build dist/cli.js
-npm run check          # Build and verify version output
-npm test               # Run release test suite
 node scripts/run-deepseek.mjs legal doctor
+node scripts/run-deepseek.mjs legal commands law-student
 ```
 
-## Model Aliases
+## Security Notes
 
-| Alias | DeepSeek Model |
-| --- | --- |
-| `pro` | `deepseek-v4-pro` |
-| `flash` | `deepseek-v4-flash` |
-
-Legacy Claude aliases (`sonnet`, `opus`, `haiku`, `best`) remain compatible.
-
-## Documentation
-
-| Document | Description |
-| --- | --- |
-| [Legal Plugins](docs/legal-plugins.md) | Preinstalled workflows, lawyer usage, MCP, and safety boundaries |
-| [中文法律插件指南](docs/legal-plugins.zh-CN.md) | Chinese legal workflow guide |
-| [Integration Design](docs/legal-integration-design.md) | Marketplace, preinstalled settings, and verification gates |
-| [Getting Started](docs/getting-started.md) | Installation, first run, API key setup |
-| [Configuration](docs/configuration.md) | Environment variables, model aliases, settings.json |
-| [Usage Guide](docs/usage.md) | Interactive mode, CLI flags, slash commands, tools |
-| [MCP & Advanced](docs/mcp-and-advanced.md) | MCP servers, sub-agents, hooks, worktrees, CI/CD |
-| [Architecture](docs/architecture.md) | Project structure, build pipeline, adapter internals |
-
-## Security And Responsibility
-
-- `DEEPSEEK_API_KEY` is never written to repository files, settings, or plugin manifests.
-- Preinstalled settings only store the public marketplace source: `anthropics/claude-for-legal`.
-- Legal outputs require attorney review. Verify citations, deadlines, jurisdictions, and factual assumptions before relying on any output.
-- Before publishing, run:
-
-```bash
-npm run check
-npm test
-rg "sk-[0-9a-f]{20,}|DEEPSEEK_API_KEY=.*sk-" -n .
-```
+- Do not commit DeepSeek API keys to the repo, README, issues, screenshots, or logs.
+- The repository only records the public marketplace source: `anthropics/claude-for-legal`.
+- Legal outputs are drafts by default and require qualified attorney, legal-team lead, instructor, or supervisor review.
+- For current laws, regulations, cases, effective dates, monetary thresholds, and filing deadlines, verify against reliable sources or legal research tools.
 
 ## License
 
-[MIT](LICENSE)
+MIT. Upstream Claude Code / Claude for Legal trademarks, code, and content belong to their respective owners.
