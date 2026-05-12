@@ -12,6 +12,7 @@ const runner = read('scripts/run-deepseek.mjs')
 const main = read('src/main.tsx')
 const constants = read('src/utils/plugins/legalMarketplace.ts')
 const handler = read('src/cli/handlers/legal.ts')
+const pluginCommands = read('src/utils/plugins/loadPluginCommands.ts')
 const docs = read('docs/legal-plugins.md')
 const design = read('docs/legal-integration-design.md')
 const zhDocs = read('docs/legal-plugins.zh-CN.md')
@@ -103,6 +104,16 @@ assert.match(
   handler,
   /installSelectedPlugins\(missingLegalPluginIds/,
   'legal doctor should install enabled legal plugins declared by project settings',
+)
+assert.match(
+  pluginCommands,
+  /getUserFacingPluginCommandName\(commandName,\s*displayName\)/,
+  'plugin slash command display names should be resolved through a collision-safe helper',
+)
+assert.match(
+  pluginCommands,
+  /!trimmedDisplayName\.includes\(['"]:['"]\)/,
+  'short plugin skill names like customize should not replace fully-qualified slash commands',
 )
 assert.match(
   runner,

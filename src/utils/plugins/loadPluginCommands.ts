@@ -166,6 +166,24 @@ function transformPluginSkillFiles(
   return result
 }
 
+function getUserFacingPluginCommandName(
+  commandName: string,
+  displayName: string | undefined,
+): string {
+  const trimmedDisplayName = displayName?.trim()
+
+  // Plugin skill frontmatter commonly uses short names like "customize".
+  // Showing those as global slash commands makes unrelated plugins collide
+  // in autocomplete and lets /customize resolve to whichever plugin loads first.
+  // Keep plugin slash commands fully qualified unless the plugin author
+  // explicitly provides a fully-qualified display name.
+  if (!trimmedDisplayName || !trimmedDisplayName.includes(':')) {
+    return commandName
+  }
+
+  return trimmedDisplayName
+}
+
 async function loadCommandsFromDirectory(
   commandsPath: string,
   pluginName: string,
@@ -321,7 +339,7 @@ function createPluginCommand(
       isHidden: !userInvocable,
       progressMessage: isSkill || config.isSkillMode ? 'loading' : 'running',
       userFacingName(): string {
-        return displayName || commandName
+        return getUserFacingPluginCommandName(commandName, displayName)
       },
       async getPromptForCommand(args, context) {
         // For skills from skills/ directory, include base directory
