@@ -4216,6 +4216,29 @@ async function run(): Promise<CommanderCommand> {
     await pluginInstallHandler(plugin, options);
   });
 
+  const legalCmd = program.command('legal').description('Install and inspect DeepSeek-powered legal workflow plugins').configureHelp(createSortedHelpConfig());
+  legalCmd.command('list').description('List curated Claude for Legal plugins supported by DeepSeekCode').action(async () => {
+    const {
+      legalListHandler
+    } = await import('./cli/handlers/legal.js');
+    await legalListHandler();
+  });
+  legalCmd.command('doctor').description('Check claude-for-legal marketplace and installed legal plugins').action(async () => {
+    const {
+      legalDoctorHandler
+    } = await import('./cli/handlers/legal.js');
+    await legalDoctorHandler();
+  });
+  legalCmd.command('setup [plugin]').description('Add claude-for-legal and install one legal plugin').option('-s, --scope <scope>', 'Installation scope: user, project, or local', 'user').addOption(coworkOption()).action(async (plugin: string | undefined, options: {
+    scope?: string;
+    cowork?: boolean;
+  }) => {
+    const {
+      legalSetupHandler
+    } = await import('./cli/handlers/legal.js');
+    await legalSetupHandler(plugin, options);
+  });
+
   // Plugin uninstall command
   pluginCmd.command('uninstall <plugin>').alias('remove').alias('rm').description('Uninstall an installed plugin').option('-s, --scope <scope>', 'Uninstall from scope: user, project, or local', 'user').option('--keep-data', "Preserve the plugin's persistent data directory (~/.claude/plugins/data/{id}/)").addOption(coworkOption()).action(async (plugin: string, options: {
     scope?: string;

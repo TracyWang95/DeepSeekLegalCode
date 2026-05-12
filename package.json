@@ -28,7 +28,9 @@
     "dist/cli.js",
     "scripts/run-deepseek.mjs",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "README_EN.md",
+    "docs"
   ],
   "scripts": {
     "prepare-src": "node scripts/prepare-src.mjs",
@@ -36,7 +38,7 @@
     "check": "node scripts/build.mjs && node dist/cli.js --version",
     "start": "node dist/cli.js",
     "test": "npm run test:release",
-    "test:release": "node scripts/deepseek-isolation.test.mjs && node scripts/logo-alignment.test.mjs && node scripts/version.test.mjs && node scripts/release-workflow.test.mjs && node scripts/verify-release-tag.test.mjs",
+    "test:release": "node scripts/deepseek-isolation.test.mjs && node scripts/logo-alignment.test.mjs && node scripts/version.test.mjs && node scripts/legal-marketplace.test.mjs && node scripts/release-workflow.test.mjs && node scripts/verify-release-tag.test.mjs",
     "verify-release-tag": "node scripts/verify-release-tag.mjs",
     "prepublishOnly": "npm run check && npm run test:release"
   },

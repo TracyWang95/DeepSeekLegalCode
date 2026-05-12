@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { mkdirSync } from 'node:fs'
+import { existsSync, mkdirSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { spawn } from 'node:child_process'
@@ -44,11 +44,27 @@ env.CLAUDE_CONFIG_DIR = env.DEEPSEEK_CODE_CONFIG_DIR
 env.CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC ||= '1'
 env.CLAUDE_CODE_EFFORT_LEVEL ||= 'max'
 
+const projectLegalSettingsPath = join(process.cwd(), '.deepseek', 'settings.json')
+if (existsSync(projectLegalSettingsPath)) {
+  env.CLAUDE_CODE_SYNC_PLUGIN_INSTALL ||= '1'
+}
+
 mkdirSync(env.DEEPSEEK_CODE_CONFIG_DIR, { recursive: true })
 
 const args = process.argv.slice(2)
 const noApiKeyArgs = new Set(['--help', '-h', '--version', '-v', '-V', 'help'])
-const shouldPromptForApiKey = !args.some(arg => noApiKeyArgs.has(arg))
+const noApiKeyCommands = new Set([
+  'auth',
+  'completion',
+  'doctor',
+  'help',
+  'legal',
+  'mcp',
+  'plugin',
+  'plugins',
+])
+const shouldPromptForApiKey =
+  !args.some(arg => noApiKeyArgs.has(arg)) && !noApiKeyCommands.has(args[0])
 
 if (!env.DEEPSEEK_API_KEY && shouldPromptForApiKey) {
   env.DEEPSEEK_API_KEY = await readSecret('Enter your DeepSeek API key: ')

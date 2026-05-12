@@ -55,6 +55,36 @@ One-shot mode:
 deepseek-code -p "summarize this repository"
 ```
 
+## Legal Plugins
+
+DeepSeekCode includes a helper for Anthropic's `claude-for-legal` marketplace.
+This repository also ships `.deepseek/settings.json` with `claude-for-legal`
+pre-registered and all 12 core legal workflows enabled by default.
+For lawyers, the normal path is just: set `DEEPSEEK_API_KEY`, start
+DeepSeekCode, and use the preinstalled legal workflows.
+
+Install another workflow while keeping model traffic on DeepSeek:
+
+```bash
+deepseek-code legal setup commercial-legal
+```
+
+List supported legal workflows:
+
+```bash
+deepseek-code legal list
+```
+
+Check installation state:
+
+```bash
+deepseek-code legal doctor
+```
+
+See [DeepSeek Legal Plugins](docs/legal-plugins.md) for available workflows,
+the [integration design](docs/legal-integration-design.md) for architecture,
+and [中文指南](docs/legal-plugins.zh-CN.md) for Chinese documentation.
+
 ## Build From Source
 
 ```bash

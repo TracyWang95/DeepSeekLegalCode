@@ -26,3 +26,4 @@ Thumbs.db
 # Local DeepSeekCode/Claude config snapshots
 .deepseek-code/
 .claude/
+.deepseek/settings.local.json
