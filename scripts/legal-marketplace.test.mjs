@@ -37,6 +37,7 @@ assert.deepEqual(
   { source: 'github', repo: 'anthropics/claude-for-legal' },
   'project settings should pre-register the legal marketplace',
 )
+
 const enabledLegalPlugins = Object.entries(projectSettings.enabledPlugins ?? {})
   .filter(
     ([pluginId, enabled]) =>
@@ -61,7 +62,11 @@ for (const plugin of [
     new RegExp(`['"]${plugin}['"]`),
     `${plugin} should be listed`,
   )
-  assert.match(docs, new RegExp(`\`${plugin}\``), `${plugin} should be documented`)
+  assert.match(
+    docs,
+    new RegExp(`\`${plugin}\``),
+    `${plugin} should be documented`,
+  )
 }
 
 assert.match(
@@ -111,8 +116,13 @@ assert.match(
 )
 assert.match(
   readmeEn,
-  /deepseek-code legal setup commercial-legal/,
-  'English README should include the legal quick-start command',
+  /Quick Start For Lawyers/,
+  'English README should include the lawyer quick-start section',
+)
+assert.match(
+  readmeEn,
+  /12 core legal workflows/,
+  'English README should describe the preinstalled legal workflows',
 )
 assert.match(
   docs,
@@ -126,8 +136,8 @@ assert.match(
 )
 assert.match(
   zhDocs,
-  /DeepSeek 法律插件/,
-  'Chinese legal documentation should exist',
+  /DEEPSEEK_API_KEY/,
+  'Chinese legal documentation should include lawyer setup guidance',
 )
 assert.match(
   packageJson.scripts['test:release'],

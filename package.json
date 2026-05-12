@@ -1,7 +1,7 @@
 {
   "name": "@qingj/deepseekcode",
   "version": "0.1.1",
-  "description": "Local CLI coding agent powered by DeepSeek V4, adapted from Claude Code",
+  "description": "DeepSeek-powered CLI agent with preinstalled Claude for Legal workflows",
   "type": "module",
   "license": "MIT",
   "keywords": [
@@ -10,7 +10,11 @@
     "cli",
     "mcp",
     "ai",
-    "code-assistant"
+    "code-assistant",
+    "legal-ai",
+    "law",
+    "contract-review",
+    "privacy"
   ],
   "repository": {
     "type": "git",
