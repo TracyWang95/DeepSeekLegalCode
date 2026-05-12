@@ -1,0 +1,58 @@
+<svg width="1600" height="430" viewBox="0 0 1600 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">DeepSeekLegalCode law-student slash command menu</title>
+  <desc id="desc">Terminal-style preview showing law-student slash commands with labels and full plugin:skill names.</desc>
+  <defs>
+    <style>
+      .mono { font-family: "Cascadia Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+      .frame { fill: #050607; stroke: #2f7de1; stroke-width: 2; }
+      .panel-line { stroke: #50545c; stroke-width: 1.5; }
+      .blue { fill: #61a5ff; }
+      .white { fill: #e7e7e7; }
+      .muted { fill: #9c9ca3; }
+      .suggest { fill: #b9c6ff; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="430" fill="#050607"/>
+
+  <rect x="6" y="30" width="1588" height="220" rx="5" class="frame"/>
+  <text x="47" y="36" class="mono blue" font-size="18" font-weight="700">DeepSeek Code</text>
+  <text x="181" y="36" class="mono muted" font-size="16">v0.1.1</text>
+
+  <line x1="464" y1="44" x2="464" y2="236" stroke="#3169b1" stroke-width="1.5"/>
+  <text x="176" y="74" class="mono white" font-size="18" font-weight="700">Welcome back!</text>
+
+  <rect x="186" y="95" width="84" height="94" fill="#61a5ff"/>
+  <rect x="174" y="108" width="110" height="74" fill="#61a5ff"/>
+  <rect x="198" y="86" width="78" height="14" fill="#61a5ff"/>
+  <rect x="277" y="113" width="24" height="45" fill="#61a5ff"/>
+  <circle cx="211" cy="137" r="5" fill="#050607"/>
+  <rect x="193" y="163" width="78" height="17" fill="#050607"/>
+  <text x="39" y="218" class="mono muted" font-size="17" font-weight="700">DeepSeek V4 Pro (1M context) - DeepSeek API</text>
+  <text x="174" y="238" class="mono muted" font-size="17" font-weight="700">D:\DeepSeekLegalCode</text>
+
+  <text x="478" y="58" class="mono blue" font-size="18" font-weight="700">Tips for getting started</text>
+  <text x="478" y="78" class="mono white" font-size="18">Run /init to create a project instruction file for DeepSeek Code</text>
+  <line x1="478" y1="88" x2="1580" y2="88" stroke="#2f7de1" stroke-width="1.5"/>
+  <text x="478" y="115" class="mono blue" font-size="18" font-weight="700">Recent activity</text>
+  <text x="478" y="136" class="mono muted" font-size="18">9m ago  /ai-governance-legal:customize</text>
+  <text x="478" y="158" class="mono muted" font-size="18">/resume for more</text>
+
+  <line x1="0" y1="286" x2="1600" y2="286" class="panel-line"/>
+  <line x1="0" y1="323" x2="1600" y2="323" class="panel-line"/>
+  <text x="10" y="307" class="mono white" font-size="22">&gt;</text>
+  <text x="30" y="307" class="mono white" font-size="22">/law</text>
+  <rect x="75" y="289" width="9" height="27" fill="#e7e7e7"/>
+
+  <text x="20" y="350" class="mono suggest" font-size="18" font-weight="700">/law-student:session</text>
+  <text x="460" y="350" class="mono suggest" font-size="18" font-weight="700">(law-student) &#x5B66;&#x4E60;&#x4F1A;&#x8BDD; - Run a focused N-question study session on a subject - MBE, essay, or flashcards...</text>
+
+  <text x="20" y="374" class="mono muted" font-size="18" font-weight="700">/law-student:customize</text>
+  <text x="460" y="374" class="mono muted" font-size="18" font-weight="700">(law-student) &#x4FEE;&#x6539;&#x914D;&#x7F6E; - Guided customization of your law-student study profile - change one thing without re-running...</text>
+
+  <text x="20" y="398" class="mono muted" font-size="18" font-weight="700">/law-student:case-brief</text>
+  <text x="460" y="398" class="mono muted" font-size="18" font-weight="700">(law-student) &#x6848;&#x4F8B;&#x6458;&#x8981; - Brief a case in your preferred format. In drill-me mode, makes the student state the holding first...</text>
+
+  <text x="20" y="422" class="mono muted" font-size="18" font-weight="700">/law-student:flashcards</text>
+  <text x="460" y="422" class="mono muted" font-size="18" font-weight="700">(law-student) &#x8BB0;&#x5FC6;&#x5361;&#x7247; - Generate or drill flashcards for black-letter memorization - Leitner-style buckets...</text>
+</svg>

@@ -6,6 +6,8 @@ DeepSeekLegalCode is a local CLI agent for legal work. It is adapted from the De
 
 > Community project. Not an official DeepSeek or Anthropic product. Legal plugin outputs are drafts for attorney, legal-team, instructor, or student review, not legal advice.
 
+![Law-student slash command menu](docs/assets/law-student-slash-menu.svg)
+
 ![Node](https://img.shields.io/badge/node-%3E%3D18-339933)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![DeepSeek](https://img.shields.io/badge/model-DeepSeek%20V4-4c8bf5)
@@ -118,6 +120,7 @@ Then ask a legal plugin command to use that source:
 docs/legal-plugins.md                 # English legal plugin guide
 docs/legal-plugins.zh-CN.md           # Chinese legal plugin guide
 docs/legal-integration-design.md      # Integration design notes
+docs/assets/law-student-slash-menu.svg
 scripts/run-deepseek.mjs              # DeepSeek launcher
 scripts/legal-marketplace.test.mjs    # Legal marketplace integration test
 src/cli/handlers/legal.ts             # legal subcommands
