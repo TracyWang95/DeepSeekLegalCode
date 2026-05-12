@@ -27,9 +27,13 @@ import {
   LEGAL_MARKETPLACE_NAME,
   LEGAL_MARKETPLACE_SOURCE,
   LEGAL_PLUGIN_COMMANDS,
+  LEGAL_PLUGIN_LABELS,
   LEGAL_PLUGIN_NAMES,
+  getLegalSkillLabel,
 } from '../../utils/plugins/legalMarketplace.js'
 import { scopeToSettingSource } from '../../utils/plugins/pluginIdentifier.js'
+import { getPluginSkills } from '../../utils/plugins/loadPluginCommands.js'
+import { getCommandName } from '../../types/command.js'
 
 type LegalOptions = {
   cowork?: boolean
@@ -56,8 +60,11 @@ function resolveScope(options: LegalOptions): InstallableScope {
 export async function legalListHandler(): Promise<void> {
   process.stdout.write('DeepSeekCode legal plugins:\n\n')
   for (const name of LEGAL_PLUGIN_NAMES) {
-    process.stdout.write(`  ${figures.pointer} ${name}\n`)
+    process.stdout.write(
+      `  ${figures.pointer} ${name} - ${LEGAL_PLUGIN_LABELS[name] ?? name}\n`,
+    )
     process.stdout.write(`    First command: ${LEGAL_PLUGIN_COMMANDS[name]}\n`)
+    process.stdout.write(`    All commands: deepseek-code legal commands ${name}\n`)
   }
   process.stdout.write(
     `\nInstall one with: deepseek-code legal setup ${LEGAL_DEFAULT_PLUGIN}\n`,
@@ -65,17 +72,108 @@ export async function legalListHandler(): Promise<void> {
   cliOk()
 }
 
+async function syncDeclaredLegalPlugins(): Promise<void> {
+  await installPluginsForHeadless()
+  const enabledPluginIds = await checkEnabledPlugins()
+  const missingLegalPluginIds = (await findMissingPlugins(enabledPluginIds)).filter(
+    pluginId => pluginId.endsWith(`@${LEGAL_MARKETPLACE_NAME}`),
+  )
+  if (missingLegalPluginIds.length > 0) {
+    await installSelectedPlugins(missingLegalPluginIds, undefined, 'user')
+    clearAllCaches()
+  }
+}
+
+function oneLine(text: string): string {
+  return text.replace(/\s+/g, ' ').trim()
+}
+
+function getLegalCommandParts(
+  commandName: string,
+): { pluginName: string; skillName: string } | null {
+  const separatorIndex = commandName.indexOf(':')
+  if (separatorIndex === -1) return null
+
+  const pluginName = commandName.slice(0, separatorIndex)
+  const skillName = commandName.slice(separatorIndex + 1)
+  if (!pluginName || !skillName) return null
+  if (!LEGAL_PLUGIN_NAMES.includes(pluginName)) return null
+
+  return { pluginName, skillName }
+}
+
+export async function legalCommandsHandler(plugin?: string): Promise<void> {
+  try {
+    if (plugin) validateLegalPlugin(plugin)
+
+    process.stdout.write('Preparing legal command list...\n')
+    await syncDeclaredLegalPlugins()
+
+    const legalSkills = (await getPluginSkills())
+      .map(command => {
+        const parts = getLegalCommandParts(command.name)
+        if (!parts) return null
+        if (plugin && parts.pluginName !== plugin) return null
+
+        return {
+          command,
+          pluginName: parts.pluginName,
+          skillName: parts.skillName,
+          label: getLegalSkillLabel(parts.pluginName, parts.skillName),
+        }
+      })
+      .filter((entry): entry is NonNullable<typeof entry> => entry !== null)
+      .sort((a, b) =>
+        a.pluginName === b.pluginName
+          ? a.skillName.localeCompare(b.skillName)
+          : a.pluginName.localeCompare(b.pluginName),
+      )
+
+    if (legalSkills.length === 0) {
+      cliError(
+        `${figures.cross} No legal skill commands found. Run: deepseek-code legal doctor`,
+      )
+    }
+
+    if (plugin) {
+      process.stdout.write(
+        `\n${plugin} - ${LEGAL_PLUGIN_LABELS[plugin] ?? plugin}\n\n`,
+      )
+      for (const entry of legalSkills) {
+        process.stdout.write(`  /${getCommandName(entry.command)}\n`)
+        process.stdout.write(`    ${entry.label} - ${oneLine(entry.command.description)}\n`)
+      }
+      process.stdout.write(`\nRun one inside DeepSeek Code, for example:\n`)
+      process.stdout.write(`  ${LEGAL_PLUGIN_COMMANDS[plugin]}\n`)
+      cliOk()
+    }
+
+    let currentPlugin = ''
+    process.stdout.write('\nDeepSeekCode legal slash commands:\n')
+    for (const entry of legalSkills) {
+      if (entry.pluginName !== currentPlugin) {
+        currentPlugin = entry.pluginName
+        process.stdout.write(
+          `\n${currentPlugin} - ${LEGAL_PLUGIN_LABELS[currentPlugin] ?? currentPlugin}\n`,
+        )
+      }
+      process.stdout.write(`  /${getCommandName(entry.command)} - ${entry.label}\n`)
+    }
+
+    process.stdout.write(
+      `\nTip: narrow the list with: deepseek-code legal commands law-student\n`,
+    )
+    cliOk()
+  } catch (error) {
+    logError(error)
+    cliError(`${figures.cross} Failed to list legal commands: ${errorMessage(error)}`)
+  }
+}
+
 export async function legalDoctorHandler(): Promise<void> {
   try {
     process.stdout.write('Syncing declared legal plugins...\n')
-    await installPluginsForHeadless()
-    const enabledPluginIds = await checkEnabledPlugins()
-    const missingLegalPluginIds = (await findMissingPlugins(enabledPluginIds)).filter(
-      pluginId => pluginId.endsWith(`@${LEGAL_MARKETPLACE_NAME}`),
-    )
-    if (missingLegalPluginIds.length > 0) {
-      await installSelectedPlugins(missingLegalPluginIds, undefined, 'user')
-    }
+    await syncDeclaredLegalPlugins()
 
     const marketplaces = await loadKnownMarketplacesConfig()
     const installed = loadInstalledPluginsV2()

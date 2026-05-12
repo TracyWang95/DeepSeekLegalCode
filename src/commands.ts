@@ -166,6 +166,11 @@ import {
   getPluginSkills,
   clearPluginSkillsCache,
 } from './utils/plugins/loadPluginCommands.js'
+import {
+  LEGAL_MARKETPLACE_NAME,
+  LEGAL_PLUGIN_NAMES,
+  getLegalSkillLabel,
+} from './utils/plugins/legalMarketplace.js'
 import memoize from 'lodash-es/memoize.js'
 import { isUsing3PServices, isClaudeAISubscriber } from './utils/auth.js'
 import { isFirstPartyAnthropicBaseUrl } from './utils/model/providers.js'
@@ -718,6 +723,25 @@ export function getCommand(commandName: string, commands: Command[]): Command {
   return command
 }
 
+function getLegalCommandLabel(cmd: Command): string | undefined {
+  if (cmd.source !== 'plugin') return undefined
+
+  const repository = cmd.pluginInfo?.repository
+  if (
+    repository !== LEGAL_MARKETPLACE_NAME &&
+    !repository?.endsWith(`@${LEGAL_MARKETPLACE_NAME}`)
+  ) {
+    return undefined
+  }
+
+  const [pluginName, skillName] = cmd.name.split(':')
+  if (!pluginName || !skillName || !LEGAL_PLUGIN_NAMES.includes(pluginName)) {
+    return undefined
+  }
+
+  return getLegalSkillLabel(pluginName, skillName)
+}
+
 /**
  * Formats a command's description with its source annotation for user-facing UI.
  * Use this in typeahead, help screens, and other places where users need to see
@@ -730,25 +754,30 @@ export function formatDescriptionWithSource(cmd: Command): string {
     return cmd.description
   }
 
+  const legalLabel = getLegalCommandLabel(cmd)
+  const description = legalLabel
+    ? `${legalLabel} - ${cmd.description}`
+    : cmd.description
+
   if (cmd.kind === 'workflow') {
-    return `${cmd.description} (workflow)`
+    return `${description} (workflow)`
   }
 
   if (cmd.source === 'plugin') {
     const pluginName = cmd.pluginInfo?.pluginManifest.name
     if (pluginName) {
-      return `(${pluginName}) ${cmd.description}`
+      return `(${pluginName}) ${description}`
     }
-    return `${cmd.description} (plugin)`
+    return `${description} (plugin)`
   }
 
   if (cmd.source === 'builtin' || cmd.source === 'mcp') {
-    return cmd.description
+    return description
   }
 
   if (cmd.source === 'bundled') {
-    return `${cmd.description} (bundled)`
+    return `${description} (bundled)`
   }
 
-  return `${cmd.description} (${getSettingSourceName(cmd.source)})`
+  return `${description} (${getSettingSourceName(cmd.source)})`
 }

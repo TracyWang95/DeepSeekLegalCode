@@ -4223,6 +4223,12 @@ async function run(): Promise<CommanderCommand> {
     } = await import('./cli/handlers/legal.js');
     await legalListHandler();
   });
+  legalCmd.command('commands [plugin]').description('List slash commands for all legal plugins or one plugin').action(async (plugin: string | undefined) => {
+    const {
+      legalCommandsHandler
+    } = await import('./cli/handlers/legal.js');
+    await legalCommandsHandler(plugin);
+  });
   legalCmd.command('doctor').description('Check claude-for-legal marketplace and installed legal plugins').action(async () => {
     const {
       legalDoctorHandler

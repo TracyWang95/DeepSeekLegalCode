@@ -86,6 +86,15 @@ node scripts/run-deepseek.mjs legal doctor
 node scripts/run-deepseek.mjs legal list
 ```
 
+列出某个插件下面的全部二级技能：
+
+```powershell
+node scripts/run-deepseek.mjs legal commands law-student
+```
+
+交互式 `/` 菜单里，法律技能统一显示成 `/插件:技能`，例如
+`/law-student:case-brief`，旁边会带一个简短中文标签，方便非技术用户选择。
+
 ## MCP 怎么用
 
 法律插件可以调用 MCP 连接文件系统、知识库、Slack、Google Drive 或其它数据源。先查看当前 MCP：

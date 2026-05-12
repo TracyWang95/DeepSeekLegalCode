@@ -54,6 +54,7 @@ updates, enable/disable behavior, and plugin manifests remain standard.
 | Command | Purpose |
 | --- | --- |
 | `deepseek-code legal list` | Show curated legal plugins and first commands. |
+| `deepseek-code legal commands [plugin]` | Show every `/plugin:skill` command, with beginner-friendly labels. |
 | `deepseek-code legal setup [plugin]` | Add the marketplace and install a plugin. |
 | `deepseek-code legal doctor` | Check marketplace, installed plugins, scopes, and enabled state. |
 

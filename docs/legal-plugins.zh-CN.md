@@ -45,6 +45,16 @@ deepseek-code legal setup privacy-legal
 deepseek-code legal setup ai-governance-legal
 ```
 
+列出某个插件下面的全部 slash command：
+
+```bash
+deepseek-code legal commands law-student
+```
+
+交互式 `/` 菜单里，法律技能统一显示成 `/插件:技能`，例如
+`/law-student:case-brief`。这样即使多个插件都有 `customize`，用户也能看清楚
+自己选的是哪个工作流。
+
 安装后重启 DeepSeekCode，再运行命令输出中提示的第一个 slash command。
 
 检查本机法律插件状态：

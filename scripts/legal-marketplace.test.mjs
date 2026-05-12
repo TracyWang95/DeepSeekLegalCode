@@ -33,6 +33,16 @@ assert.match(
   /LEGAL_DEFAULT_PLUGIN\s*=\s*['"]commercial-legal['"]/,
   'legal setup should have a practical default workflow',
 )
+assert.match(
+  constants,
+  /LEGAL_PLUGIN_LABELS/,
+  'legal plugins should have user-friendly practice-area labels',
+)
+assert.match(
+  constants,
+  /getLegalSkillLabel/,
+  'legal skills should have user-friendly second-level command labels',
+)
 assert.deepEqual(
   projectSettings.extraKnownMarketplaces?.['claude-for-legal']?.source,
   { source: 'github', repo: 'anthropics/claude-for-legal' },
@@ -91,9 +101,19 @@ assert.match(
   'CLI should expose a legal doctor command',
 )
 assert.match(
+  main,
+  /legalCmd\.command\(['"]commands \[plugin\]['"]\)/,
+  'CLI should expose a legal commands browser',
+)
+assert.match(
   handler,
   /legalDoctorHandler/,
   'legal handler should implement doctor diagnostics',
+)
+assert.match(
+  handler,
+  /legalCommandsHandler/,
+  'legal handler should implement a beginner-friendly command list',
 )
 assert.match(
   handler,

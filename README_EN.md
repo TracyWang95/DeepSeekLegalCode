@@ -86,6 +86,15 @@ List all legal workflows:
 node scripts/run-deepseek.mjs legal list
 ```
 
+List every second-level command in one workflow:
+
+```powershell
+node scripts/run-deepseek.mjs legal commands law-student
+```
+
+In the interactive `/` menu, legal skills are shown as `/plugin:skill`, for
+example `/law-student:case-brief`, with a short practice label beside them.
+
 ## MCP Usage
 
 Legal plugins can use MCP servers for local files, knowledge bases, Slack, Google Drive, research systems, and other data sources.

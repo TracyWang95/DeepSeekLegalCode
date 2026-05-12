@@ -48,6 +48,16 @@ deepseek-code legal setup privacy-legal
 deepseek-code legal setup ai-governance-legal
 ```
 
+List every slash command under one plugin:
+
+```bash
+deepseek-code legal commands law-student
+```
+
+Interactive slash commands are intentionally shown as `/plugin:skill`, for
+example `/law-student:case-brief`, so duplicate skill names such as `customize`
+remain easy to tell apart.
+
 The command adds the `anthropics/claude-for-legal` marketplace, installs the
 selected plugin at user scope by default, and prints the first slash command to
 run after restarting DeepSeekCode.
